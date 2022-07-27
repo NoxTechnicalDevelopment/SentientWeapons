@@ -1,0 +1,11 @@
+name: SentientWeapons
+version: '${project.version}'
+main: bow.nox.sentientweapons.SentientWeapons
+api-version: 1.19
+authors: [NoxDev]
+description: Turns Weapons Into Sentient Versions.
+website: https://github.com/NoxTechnicalDevelopment
+commands:
+  transformbow:
+    description: Transforms bow into sentient form.
+    usage: /<command>
