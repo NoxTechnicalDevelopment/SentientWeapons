@@ -2,7 +2,7 @@
 Turns weapons into sentient versions.
 
 ## Weapons
-```[Incomplete]``` Bow - Shoots entitys in range.
+```[Almost Complete]``` Bow - Shoots entitys in range.
 
 ```[Not Started]``` Sword - Attacks entitys in range.
 
