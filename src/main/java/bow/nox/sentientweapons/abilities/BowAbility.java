@@ -17,15 +17,14 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static bow.nox.sentientweapons.ai.BowAi.summonSentientBow;
 import static org.bukkit.Bukkit.getServer;
 
 public class BowAbility implements Listener {
 
     SentientWeapons plugin;
 
-    public BowAbility(SentientWeapons plugin) {
-        this.plugin = plugin;
-    }
+    public BowAbility(SentientWeapons plugin) { this.plugin = plugin; }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
@@ -48,11 +47,11 @@ public class BowAbility implements Listener {
                 Location dest = player.getLocation().add(player.getLocation().getDirection().multiply(10));
                 Vector vector = dest.subtract(player.getLocation()).toVector();
 
-
+                vector.setY(0);
 
                 new BukkitRunnable() {
 
-                    final int distance = 20;
+                    final int distance = 8;
                     int i = 0;
 
                     public void run() {
@@ -65,24 +64,16 @@ public class BowAbility implements Listener {
 
                         if (as.getTargetBlockExact(1) != null && !as.getTargetBlockExact(1).isPassable()) {
                             if(!as.isDead()){
+                                summonSentientBow(player, as.getLocation(), plugin);
                                 as.remove();
-                                if(player.getInventory().firstEmpty() != -1) {
-                                    player.getInventory().addItem(Bow.SentientBow);
-                                } else {
-                                    player.getWorld().dropItemNaturally(player.getLocation(), Bow.SentientBow);
-                                }
                                 cancel();
                             }
                         }
 
                         if(i > distance) {
                             if(!as.isDead()){
+                                summonSentientBow(player, as.getLocation(), plugin);
                                 as.remove();
-                                if(player.getInventory().firstEmpty() != -1) {
-                                    player.getInventory().addItem(Bow.SentientBow);
-                                } else {
-                                    player.getWorld().dropItemNaturally(player.getLocation(), Bow.SentientBow);
-                                }
                                 cancel();
                             }
                         }
