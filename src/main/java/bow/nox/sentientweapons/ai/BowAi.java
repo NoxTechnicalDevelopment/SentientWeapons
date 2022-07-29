@@ -59,7 +59,7 @@ public class BowAi {
                                     Arrow arrow = as.getWorld().spawn(as.getLocation().add(0, 0.8, 0), Arrow.class);
                                     arrow.setShooter(as);
 
-                                    if (!arrow.isOnGround() && !arrow.isDead() && !livingentity.isDead()) {
+                                    if (!arrow.isOnGround() && !arrow.isDead() && !livingentity.isDead() && as.getNearbyEntities(5, 5, 5).contains(livingentity)) {
                                         if (!livingentity.isInvulnerable()) {
                                             arrow.setVelocity((livingentity.getEyeLocation().subtract(arrow.getLocation())).toVector().multiply(0.4));
                                         }
