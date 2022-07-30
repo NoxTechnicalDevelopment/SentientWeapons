@@ -6,7 +6,7 @@ Turns weapons into sentient versions.
 
 ```[Not Started]``` Sword - Attacks entitys in range.
 
-```[Not Started]``` Pickaxe - Strip mines at any location.**
+```[Not Started]``` Pickaxe - Mines out chunk.
 
 ```[Not Started]``` Axe - Chops wood*
 
