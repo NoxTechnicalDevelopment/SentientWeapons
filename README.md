@@ -2,9 +2,9 @@
 Turns weapons into sentient versions.
 
 ## Weapons
-```[Almost Complete]``` Bow - Shoots entitys in range.
+```[Complete]``` Bow - Shoots entitys in range.
 
-```[Not Started]``` Sword - Attacks entitys in range.
+```[Almost Complete]``` Sword - Attacks entitys in range.
 
 ```[Not Started]``` Pickaxe - Mines out chunk.
 
@@ -14,8 +14,10 @@ Turns weapons into sentient versions.
 
 ```[Not Started]``` Hoe - Farms for you.
 
-## Chunk Tracer
-Logs all chunks a player enters in order of newest to oldest
+## Future Features
+Recipies for each item (around 2 netherite worth each item).
+
+Gui to coustimise sentient weapons (hats, clothes, etc).**
 
 ## Notes
 *Some features not fully thought out yet.
