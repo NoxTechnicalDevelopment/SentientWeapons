@@ -10,13 +10,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 import bow.nox.sentientweapons.SentientWeapons;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.ArrayList;
 
-public class BowAi {
+public class SwordAi {
 
-    static List<LivingEntity> shotAt = new ArrayList<>();
+    static List<LivingEntity> lungedAt = new ArrayList<>();
 
-    public static void summonSentientBow(Player player, Location preLocation, SentientWeapons plugin) {
+    public static void summonSentientSword(Player player, Location preLocation, SentientWeapons plugin) {
         Location location = preLocation.subtract(0, 0.5, 0);
 
         ArmorStand as = (ArmorStand) player.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
@@ -26,12 +27,12 @@ public class BowAi {
         as.setArms(true);
         as.setSmall(false);
         as.setMarker(false);
-        as.getEquipment().setItemInMainHand(new ItemStack(Material.BOW));
+        as.getEquipment().setItemInMainHand(new ItemStack(Material.NETHERITE_SWORD));
         as.setRightArmPose(new EulerAngle(Math.toRadians(90), Math.toRadians(0), Math.toRadians(0)));
-        startAiBow(as, player, plugin);
+        startAiSword(as, player, plugin);
     }
 
-    private static void startAiBow(ArmorStand as, Player player, SentientWeapons plugin) {
+    private static void startAiSword(ArmorStand as, Player player, SentientWeapons plugin) {
 
         new BukkitRunnable() {
 
@@ -46,29 +47,40 @@ public class BowAi {
                         float yaw = (float) Math.toDegrees(Math.atan2(livingentity.getLocation().getZ() - as.getLocation().getZ(), livingentity.getLocation().getX() - as.getLocation().getX())) + 90;
                         as.setRotation(yaw, 0);
 
-                        if(!shotAt.contains(livingentity)) {
-                            shotAt.add(livingentity);
+                        if(!lungedAt.contains(livingentity)) {
+                            lungedAt.add(livingentity);
 
                             new BukkitRunnable() {
 
+                                final Location origin = as.getLocation();
+
                                 public void run() {
 
-                                    Arrow arrow = as.getWorld().spawn(as.getLocation().add(0, 0.8, 0), Arrow.class);
-                                    arrow.setShooter(as);
+                                    Location livingentityLoc = livingentity.getLocation();
 
-                                    if (!arrow.isOnGround() && !arrow.isDead() && !livingentity.isDead() && as.getNearbyEntities(5, 3, 5).contains(livingentity) && !livingentity.isInvisible()) {
+                                    if (!livingentity.isDead() && Objects.requireNonNull(origin.getWorld()).getNearbyEntities(origin, 5, 3, 5).contains(livingentity) && !livingentity.isInvisible()) {
                                         if (!livingentity.isInvulnerable()) {
-                                            arrow.setVelocity((livingentity.getEyeLocation().subtract(arrow.getLocation())).toVector().multiply(0.4));
+                                            float yawAdjustment = livingentityLoc.getYaw() + 90;
+
+                                            if(yawAdjustment < 0) yawAdjustment += 360;
+
+                                            double newX = Math.cos(Math.toRadians(yawAdjustment));
+                                            double newZ = Math.sin(Math.toRadians(yawAdjustment));
+
+                                            Location behindEntity = new Location(livingentity.getWorld(), livingentityLoc.getX() - newX, livingentityLoc.getY(), livingentityLoc.getZ() - newZ, livingentityLoc.getYaw(), livingentityLoc.getPitch());
+
+                                            livingentity.damage(8, as);
+                                            as.teleport(behindEntity);
                                         }
                                     } else {
-                                        if (!arrow.isDead()) {
-                                            arrow.remove();
+                                        if (!as.isDead()) {
+                                            as.teleport(origin);
                                         }
-                                        shotAt.remove(livingentity);
+                                        lungedAt.remove(livingentity);
                                         cancel();
                                     }
                                 }
-                            }.runTaskTimer(plugin, 0L, 20L);
+                            }.runTaskTimer(plugin, 5L, 20L);
                         }
                     }
                 }

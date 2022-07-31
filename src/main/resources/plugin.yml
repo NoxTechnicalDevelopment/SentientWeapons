@@ -6,6 +6,9 @@ authors: [NoxDev]
 description: Turns Weapons Into Sentient Versions.
 website: https://github.com/NoxTechnicalDevelopment
 commands:
-  transformbow:
+  givesentientbow:
     description: Transforms bow into sentient form.
+    usage: /<command>
+  givesentientsword:
+    description: transforms sword into sentient form.
     usage: /<command>
